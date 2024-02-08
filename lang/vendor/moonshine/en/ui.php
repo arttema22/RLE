@@ -89,9 +89,12 @@ return [
             'price' => 'Price',
             'comment' => 'Comment',
             'status' => 'Status',
-            'worked' => 'Worked',
-            'all' => 'All',
-            'deleted' => 'Deleted',
+        ],
+        'petrol' => [
+            'dir_petrol' => 'Petrol',
+            'title' => 'Title',
+            'comment' => 'Comment',
+            'status' => 'Status',
         ],
     ],
 ];

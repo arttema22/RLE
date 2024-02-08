@@ -11,10 +11,8 @@ use MoonShine\Fields\Switcher;
 use MoonShine\Fields\Textarea;
 use MoonShine\Decorations\Grid;
 use MoonShine\Decorations\Block;
-use MoonShine\Enums\ClickAction;
 use MoonShine\Decorations\Column;
 use MoonShine\Decorations\Divider;
-use MoonShine\Decorations\Heading;
 use MoonShine\Resources\ModelResource;
 use Illuminate\Database\Eloquent\Model;
 use MoonShine\Components\FlexibleRender;
@@ -26,7 +24,6 @@ class DirServiceResource extends ModelResource
 {
     protected string $model = DirService::class;
 
-    // protected string $title = 'DirServices';
     public function title(): string
     {
         return __('moonshine::ui.dir.service.dir_services');
@@ -54,10 +51,6 @@ class DirServiceResource extends ModelResource
     {
         return ['create', 'update', 'delete', 'massDelete'];
     }
-
-    // protected ?ClickAction $clickAction = ClickAction::EDIT;
-
-
 
     public function indexFields(): array
     {
@@ -92,7 +85,6 @@ class DirServiceResource extends ModelResource
             ]),
             Divider::make(),
             Block::make([
-                FlexibleRender::make(__('')),
                 Textarea::make('comment')
                     ->hint(__('Поле позволяет хранить любую дополнительную информацию к услуге.
                             Заполнять поле не обязательно.'))
@@ -115,26 +107,4 @@ class DirServiceResource extends ModelResource
             'status' => ['boolean'],
         ];
     }
-
-    // public function queryTags(): array
-    // {
-    //     return [
-    //         QueryTag::make(
-    //             'worked',
-    //             fn (Builder $query) => $query
-    //         )->translatable('moonshine::ui.dir.service')
-    //             ->default(),
-
-    //         QueryTag::make(
-    //             'all',
-    //             fn (Builder $query) => $query->withTrashed()
-    //         )->translatable('moonshine::ui.dir.service'),
-
-    //         QueryTag::make(
-    //             'deleted',
-    //             fn (Builder $query) => $query->onlyTrashed()
-    //         )->translatable('moonshine::ui.dir.service'),
-    //     ];
-    // }
-
 }
