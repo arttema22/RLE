@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\MoonShine\Resources\DirCargoResource;
+use App\MoonShine\Resources\DirPayerResource;
 use App\MoonShine\Resources\DirPetrolStationResource;
 use App\MoonShine\Resources\DirServiceResource;
 use MoonShine\Providers\MoonShineApplicationServiceProvider;
@@ -33,6 +34,7 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
                 MenuItem::make('dir_services', new DirServiceResource())->translatable('moonshine::ui.dir.service'),
                 MenuItem::make('dir_petrols', new DirPetrolStationResource())->translatable('moonshine::ui.dir.petrol'),
                 MenuItem::make('dir_cargos', new DirCargoResource())->translatable('moonshine::ui.dir.cargo'),
+                MenuItem::make('dir_payers', new DirPayerResource())->translatable('moonshine::ui.dir.payer'),
             ])->translatable('moonshine::ui.dir'),
 
             MenuGroup::make(static fn () => __('moonshine::ui.resource.system'), [

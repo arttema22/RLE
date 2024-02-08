@@ -83,24 +83,43 @@ return [
     ],
     'dir' => [
         'directory' => 'Directory',
+        'title' => 'Title',
+        'price' => 'Price',
+        'comment' => 'Comment',
+        'status' => 'Status',
         'service' => [
             'dir_services' => 'Services',
-            'title' => 'Title',
-            'price' => 'Price',
-            'comment' => 'Comment',
-            'status' => 'Status',
+            'title_hint' => 'The field must contain information about the name of the additional service.
+                            This name will be used in the future in service selection lists.',
+            'price_hint' => 'The field must contain the cost of the additional service.
+                            It is this cost that will be used in future calculations and accruals.',
+            'textarea_hint' => 'The field allows you to store any additional information for the service.
+                            It is not necessary to fill in the field.',
+            'switcher_hint' => 'Enables/Disables the service',
         ],
         'petrol' => [
             'dir_petrols' => 'Petrol',
-            'title' => 'Title',
-            'comment' => 'Comment',
-            'status' => 'Status',
+            'title_hint' => 'The field must contain information about the name of the gas station.
+                            This name will be used in the future in gas station selection lists.',
+            'textarea_hint' => 'The field allows you to store any additional information about the gas station.
+                            It is not necessary to fill in the field.',
+            'switcher_hint' => 'Enables/Disables the petrol',
         ],
         'cargo' => [
             'dir_cargos' => 'Cargos',
-            'title' => 'Title',
-            'comment' => 'Comment',
-            'status' => 'Status',
+            'title_hint' => 'The field must contain information about the name of the cargo.
+                            This name will be used in the future in cargo selection lists.',
+            'textarea_hint' => 'The field allows you to store any additional information about the cargo.
+                            It is not necessary to fill in the field.',
+            'switcher_hint' => 'Enables/Disables the cargo',
+        ],
+        'payer' => [
+            'dir_payers' => 'Payers',
+            'title_hint' => 'The field must contain information about the name of the payer.
+                            This name will be used in the future in payer selection lists.',
+            'textarea_hint' => 'The field allows you to store any additional information about the payer.
+                            It is not necessary to fill in the field.',
+            'switcher_hint' => 'Enables/Disables the payer',
         ],
     ],
 ];

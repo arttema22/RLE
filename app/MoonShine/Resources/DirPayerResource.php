@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources;
 
-use App\Models\DirCargo;
+use App\Models\DirPayer;
 use MoonShine\Fields\Text;
 use MoonShine\Fields\Switcher;
 use MoonShine\Fields\Textarea;
@@ -12,15 +12,15 @@ use MoonShine\Resources\ModelResource;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @extends ModelResource<DirCargo>
+ * @extends ModelResource<DirPayer>
  */
-class DirCargoResource extends ModelResource
+class DirPayerResource extends ModelResource
 {
-    protected string $model = DirCargo::class;
+    protected string $model = DirPayer::class;
 
     public function title(): string
     {
-        return __('moonshine::ui.dir.cargo.dir_cargos');
+        return __('moonshine::ui.dir.payer.dir_payers');
     }
 
     protected string $sortColumn = 'title'; // Поле сортировки по умолчанию
@@ -33,12 +33,12 @@ class DirCargoResource extends ModelResource
 
     public function redirectAfterSave(): string
     {
-        return to_page(resource: DirCargoResource::class);
+        return to_page(resource: DirPayerResource::class);
     }
 
     public function redirectAfterDelete(): string
     {
-        return to_page(resource: DirCargoResource::class);
+        return to_page(resource: DirPayerResource::class);
     }
 
     public function getActiveActions(): array
@@ -60,16 +60,18 @@ class DirCargoResource extends ModelResource
         return [
             Text::make('title')
                 ->required()
-                ->hint(__('moonshine::ui.dir.cargo.title_hint'))
+                ->hint(__('moonshine::ui.dir.payer.title_hint'))
                 ->translatable('moonshine::ui.dir'),
             Textarea::make('comment')
-                ->hint(__('moonshine::ui.dir.cargo.textarea_hint'))
+                ->hint(__('moonshine::ui.dir.payer.textarea_hint'))
                 ->translatable('moonshine::ui.dir'),
             Switcher::make('status')
-                ->hint(__('moonshine::ui.dir.cargo.switcher_hint'))
+                ->hint(__('moonshine::ui.dir.payer.switcher_hint'))
                 ->translatable('moonshine::ui.dir'),
+
         ];
     }
+
 
     public function rules(Model $item): array
     {

@@ -55,10 +55,10 @@ class DirServiceResource extends ModelResource
     public function indexFields(): array
     {
         return [
-            Text::make('title')->sortable()->translatable('moonshine::ui.dir.service'),
-            Text::make('price')->sortable()->translatable('moonshine::ui.dir.service'),
-            Text::make('comment')->translatable('moonshine::ui.dir.service'),
-            Switcher::make('status')->updateOnPreview()->sortable()->translatable('moonshine::ui.dir.service'),
+            Text::make('title')->sortable()->translatable('moonshine::ui.dir'),
+            Text::make('price')->sortable()->translatable('moonshine::ui.dir'),
+            Text::make('comment')->translatable('moonshine::ui.dir'),
+            Switcher::make('status')->updateOnPreview()->sortable()->translatable('moonshine::ui.dir'),
         ];
     }
 
@@ -70,30 +70,27 @@ class DirServiceResource extends ModelResource
                     Column::make([
                         Text::make('title')
                             ->required()
-                            ->hint(__('Поле должно содержать информацию о названии дополнительной услуги.
-                            Именно это название будет в дальнейшем использоваться в списках выбора услуги.'))
-                            ->translatable('moonshine::ui.dir.service'),
+                            ->hint(__('moonshine::ui.dir.service.title_hint'))
+                            ->translatable('moonshine::ui.dir'),
                     ])->columnSpan(8),
                     Column::make([
                         Number::make('price')
                             ->required()
-                            ->hint(__('Поле должно содержать стоимость дополнительной услуги.
-                            Именно эта стоимость будет в дальнейшем использоваться в расчетах и начислениях.'))
-                            ->translatable('moonshine::ui.dir.service'),
+                            ->hint(__('moonshine::ui.dir.service.switcher_hint'))
+                            ->translatable('moonshine::ui.dir'),
                     ])->columnSpan(4),
                 ]),
             ]),
             Divider::make(),
             Block::make([
                 Textarea::make('comment')
-                    ->hint(__('Поле позволяет хранить любую дополнительную информацию к услуге.
-                            Заполнять поле не обязательно.'))
-                    ->translatable('moonshine::ui.dir.service'),
+                    ->hint(__('moonshine::ui.dir.service.textarea_hint'))
+                    ->translatable('moonshine::ui.dir'),
             ]),
             Divider::make(),
             Switcher::make('status')
-                ->hint(__('Включает/Выключает услугу'))
-                ->translatable('moonshine::ui.dir.service'),
+                ->hint(__('moonshine::ui.dir.service.switcher_hint'))
+                ->translatable('moonshine::ui.dir'),
             Divider::make(),
         ];
     }

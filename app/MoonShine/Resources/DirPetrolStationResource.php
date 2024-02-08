@@ -49,9 +49,9 @@ class DirPetrolStationResource extends ModelResource
     public function indexFields(): array
     {
         return [
-            Text::make('title')->sortable()->translatable('moonshine::ui.dir.petrol'),
-            Text::make('comment')->translatable('moonshine::ui.dir.petrol'),
-            Switcher::make('status')->updateOnPreview()->sortable()->translatable('moonshine::ui.dir.petrol'),
+            Text::make('title')->sortable()->translatable('moonshine::ui.dir'),
+            Text::make('comment')->translatable('moonshine::ui.dir'),
+            Switcher::make('status')->updateOnPreview()->sortable()->translatable('moonshine::ui.dir'),
         ];
     }
 
@@ -60,16 +60,14 @@ class DirPetrolStationResource extends ModelResource
         return [
             Text::make('title')
                 ->required()
-                ->hint(__('Поле должно содержать информацию о названии АЗС.
-                            Именно это название будет в дальнейшем использоваться в списках выбора АЗС.'))
-                ->translatable('moonshine::ui.dir.petrol'),
+                ->hint(__('moonshine::ui.dir.petrol.title_hint'))
+                ->translatable('moonshine::ui.dir'),
             Textarea::make('comment')
-                ->hint(__('Поле позволяет хранить любую дополнительную информацию к АЗС.
-                            Заполнять поле не обязательно.'))
-                ->translatable('moonshine::ui.dir.petrol'),
+                ->hint(__('moonshine::ui.dir.petrol.textarea_hint'))
+                ->translatable('moonshine::ui.dir'),
             Switcher::make('status')
-                ->hint(__('Включает/Выключает АЗС'))
-                ->translatable('moonshine::ui.dir.petrol'),
+                ->hint(__('moonshine::ui.dir.petrol.switcher_hint'))
+                ->translatable('moonshine::ui.dir'),
         ];
     }
 
