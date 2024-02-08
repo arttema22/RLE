@@ -91,7 +91,13 @@ return [
             'status' => 'Статус',
         ],
         'petrol' => [
-            'dir_petrol' => 'АЗС',
+            'dir_petrols' => 'АЗС',
+            'title' => 'Название',
+            'comment' => 'Комментарий',
+            'status' => 'Статус',
+        ],
+        'cargo' => [
+            'dir_cargos' => 'Грузы',
             'title' => 'Название',
             'comment' => 'Комментарий',
             'status' => 'Статус',

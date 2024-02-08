@@ -91,7 +91,13 @@ return [
             'status' => 'Status',
         ],
         'petrol' => [
-            'dir_petrol' => 'Petrol',
+            'dir_petrols' => 'Petrol',
+            'title' => 'Title',
+            'comment' => 'Comment',
+            'status' => 'Status',
+        ],
+        'cargo' => [
+            'dir_cargos' => 'Cargos',
             'title' => 'Title',
             'comment' => 'Comment',
             'status' => 'Status',

@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources;
 
+use App\Models\DirCargo;
 use MoonShine\Fields\Text;
 use MoonShine\Fields\Switcher;
 use MoonShine\Fields\Textarea;
-use App\Models\DirPetrolStation;
 use MoonShine\Resources\ModelResource;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @extends ModelResource<DirPetrolStation>
+ * @extends ModelResource<DirCargo>
  */
-class DirPetrolStationResource extends ModelResource
+class DirCargoResource extends ModelResource
 {
-    protected string $model = DirPetrolStation::class;
+    protected string $model = DirCargo::class;
 
     public function title(): string
     {
-        return __('moonshine::ui.dir.petrol.dir_petrols');
+        return __('moonshine::ui.dir.cargo.dir_cargos');
     }
 
     protected string $sortColumn = 'title'; // Поле сортировки по умолчанию
@@ -33,12 +33,12 @@ class DirPetrolStationResource extends ModelResource
 
     public function redirectAfterSave(): string
     {
-        return to_page(resource: DirPetrolStationResource::class);
+        return to_page(resource: DirCargoResource::class);
     }
 
     public function redirectAfterDelete(): string
     {
-        return to_page(resource: DirPetrolStationResource::class);
+        return to_page(resource: DirCargoResource::class);
     }
 
     public function getActiveActions(): array
@@ -49,9 +49,9 @@ class DirPetrolStationResource extends ModelResource
     public function indexFields(): array
     {
         return [
-            Text::make('title')->sortable()->translatable('moonshine::ui.dir.petrol'),
-            Text::make('comment')->translatable('moonshine::ui.dir.petrol'),
-            Switcher::make('status')->updateOnPreview()->sortable()->translatable('moonshine::ui.dir.petrol'),
+            Text::make('title')->sortable()->translatable('moonshine::ui.dir.cargo'),
+            Text::make('comment')->translatable('moonshine::ui.dir.cargo'),
+            Switcher::make('status')->updateOnPreview()->sortable()->translatable('moonshine::ui.dir.cargo'),
         ];
     }
 
@@ -60,19 +60,19 @@ class DirPetrolStationResource extends ModelResource
         return [
             Text::make('title')
                 ->required()
-                ->hint(__('Поле должно содержать информацию о названии АЗС.
-                            Именно это название будет в дальнейшем использоваться в списках выбора АЗС.'))
-                ->translatable('moonshine::ui.dir.petrol'),
+                ->hint(__('Поле должно содержать информацию о названии груза.
+                            Именно это название будет в дальнейшем использоваться в списках выбора груза.'))
+                ->translatable('moonshine::ui.dir.cargo'),
             Textarea::make('comment')
-                ->hint(__('Поле позволяет хранить любую дополнительную информацию к АЗС.
+                ->hint(__('Поле позволяет хранить любую дополнительную информацию о грузе.
                             Заполнять поле не обязательно.'))
-                ->translatable('moonshine::ui.dir.petrol'),
+                ->translatable('moonshine::ui.dir.cargo'),
             Switcher::make('status')
-                ->hint(__('Включает/Выключает АЗС'))
-                ->translatable('moonshine::ui.dir.petrol'),
+                ->hint(__('Включает/Выключает груз'))
+                ->translatable('moonshine::ui.dir.cargo'),
+
         ];
     }
-
 
     public function rules(Model $item): array
     {
