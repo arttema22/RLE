@@ -85,6 +85,7 @@ return [
         'directory' => 'Directory',
         'title' => 'Title',
         'price' => 'Price',
+        'is_service' => 'Services',
         'comment' => 'Comment',
         'status' => 'Status',
         'service' => [
@@ -120,6 +121,15 @@ return [
             'textarea_hint' => 'The field allows you to store any additional information about the payer.
                             It is not necessary to fill in the field.',
             'switcher_hint' => 'Enables/Disables the payer',
+        ],
+        'truck' => [
+            'dir_type_trucks' => 'Type trucks',
+            'title_hint' => 'The field must contain information about the name of the truck type.
+                            It is this name that will be used in the future in the truck type selection lists.',
+            'textarea_hint' => 'The field allows you to store any additional information about the type of truck.
+                            It is not necessary to fill in the field.',
+            'switcher_hint' => 'Enables/Disables type',
+            'switcher_service_hint' => 'Enables/Disables the ability to provide services',
         ],
     ],
 ];

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources;
 
-use App\Models\DirService;
 use MoonShine\Fields\Text;
+use App\Models\DirTypeTruck;
 use MoonShine\Fields\Number;
 use MoonShine\Fields\Switcher;
 use MoonShine\Fields\Textarea;
@@ -16,16 +16,17 @@ use MoonShine\Decorations\Divider;
 use MoonShine\Resources\ModelResource;
 use Illuminate\Database\Eloquent\Model;
 
+
 /**
- * @extends ModelResource<DirService>
+ * @extends ModelResource<DirTypeTruck>
  */
-class DirServiceResource extends ModelResource
+class DirTypeTruckResource extends ModelResource
 {
-    protected string $model = DirService::class;
+    protected string $model = DirTypeTruck::class;
 
     public function title(): string
     {
-        return __('moonshine::ui.dir.service.dir_services');
+        return __('moonshine::ui.dir.truck.dir_type_trucks');
     }
 
     protected string $sortColumn = 'title'; // Поле сортировки по умолчанию
@@ -38,12 +39,12 @@ class DirServiceResource extends ModelResource
 
     public function redirectAfterSave(): string
     {
-        return to_page(resource: DirServiceResource::class);
+        return to_page(resource: DirTypeTruckResource::class);
     }
 
     public function redirectAfterDelete(): string
     {
-        return to_page(resource: DirServiceResource::class);
+        return to_page(resource: DirTypeTruckResource::class);
     }
 
     public function getActiveActions(): array
@@ -55,9 +56,10 @@ class DirServiceResource extends ModelResource
     {
         return [
             Text::make('title')->sortable()->translatable('moonshine::ui.dir'),
-            Text::make('price')->sortable()->translatable('moonshine::ui.dir'),
             Text::make('comment')->translatable('moonshine::ui.dir'),
+            Switcher::make('is_service')->updateOnPreview()->sortable()->translatable('moonshine::ui.dir'),
             Switcher::make('status')->updateOnPreview()->sortable()->translatable('moonshine::ui.dir'),
+
         ];
     }
 
@@ -69,13 +71,12 @@ class DirServiceResource extends ModelResource
                     Column::make([
                         Text::make('title')
                             ->required()
-                            ->hint(__('moonshine::ui.dir.service.title_hint'))
+                            ->hint(__('moonshine::ui.dir.truck.title_hint'))
                             ->translatable('moonshine::ui.dir'),
                     ])->columnSpan(8),
                     Column::make([
-                        Number::make('price')
-                            ->required()
-                            ->hint(__('moonshine::ui.dir.service.switcher_hint'))
+                        Switcher::make('is_service')
+                            ->hint(__('moonshine::ui.dir.truck.switcher_service_hint'))
                             ->translatable('moonshine::ui.dir'),
                     ])->columnSpan(4),
                 ]),
@@ -83,12 +84,12 @@ class DirServiceResource extends ModelResource
             Divider::make(),
             Block::make([
                 Textarea::make('comment')
-                    ->hint(__('moonshine::ui.dir.service.textarea_hint'))
+                    ->hint(__('moonshine::ui.dir.truck.textarea_hint'))
                     ->translatable('moonshine::ui.dir'),
             ]),
             Divider::make(),
             Switcher::make('status')
-                ->hint(__('moonshine::ui.dir.service.switcher_hint'))
+                ->hint(__('moonshine::ui.dir.truck.switcher_hint'))
                 ->translatable('moonshine::ui.dir'),
             Divider::make(),
         ];
@@ -98,7 +99,7 @@ class DirServiceResource extends ModelResource
     {
         return [
             'title' => ['required', 'string', 'min:3', 'max:255'],
-            'price' => ['required', 'numeric', 'digits_between:1,8'],
+            'is_service' => ['required', 'boolean'],
             'comment' => ['string', 'min:3', 'nullable'],
             'status' => ['boolean'],
         ];
