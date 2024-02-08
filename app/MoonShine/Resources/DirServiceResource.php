@@ -9,12 +9,15 @@ use MoonShine\Fields\Text;
 use MoonShine\Fields\Number;
 use MoonShine\Fields\Switcher;
 use MoonShine\Fields\Textarea;
+use MoonShine\Decorations\Grid;
+use MoonShine\Decorations\Block;
 use MoonShine\Enums\ClickAction;
+use MoonShine\Decorations\Column;
+use MoonShine\Decorations\Divider;
+use MoonShine\Decorations\Heading;
 use MoonShine\Resources\ModelResource;
 use Illuminate\Database\Eloquent\Model;
-use MoonShine\Decorations\Block;
-use MoonShine\Decorations\Column;
-use MoonShine\Decorations\Grid;
+use MoonShine\Components\FlexibleRender;
 
 /**
  * @extends ModelResource<DirService>
@@ -69,18 +72,37 @@ class DirServiceResource extends ModelResource
     public function formFields(): array
     {
         return [
-            Grid::make([
-                Column::make([
-                    Block::make([
-                        Text::make('title')->required()->translatable('moonshine::ui.dir.service'),
-                        Number::make('price')->required()->translatable('moonshine::ui.dir.service'),
-                        Textarea::make('comment')->translatable('moonshine::ui.dir.service'),
-                    ]),
-                ])->columnSpan(8),
-                Column::make([
-                    Switcher::make('status')->translatable('moonshine::ui.dir.service'),
-                ])->columnSpan(4),
+            Block::make([
+                Grid::make([
+                    Column::make([
+                        Text::make('title')
+                            ->required()
+                            ->hint(__('Поле должно содержать информацию о названии дополнительной услуги.
+                            Именно это название будет в дальнейшем использоваться в списках выбора услуги.'))
+                            ->translatable('moonshine::ui.dir.service'),
+                    ])->columnSpan(8),
+                    Column::make([
+                        Number::make('price')
+                            ->required()
+                            ->hint(__('Поле должно содержать стоимость дополнительной услуги.
+                            Именно эта стоимость будет в дальнейшем использоваться в расчетах и начислениях.'))
+                            ->translatable('moonshine::ui.dir.service'),
+                    ])->columnSpan(4),
+                ]),
             ]),
+            Divider::make(),
+            Block::make([
+                FlexibleRender::make(__('')),
+                Textarea::make('comment')
+                    ->hint(__('Поле позволяет хранить любую дополнительную информацию к услуге.
+                            Заполнять поле не обязательно.'))
+                    ->translatable('moonshine::ui.dir.service'),
+            ]),
+            Divider::make(),
+            Switcher::make('status')
+                ->hint(__('Включает/Выключает услугу'))
+                ->translatable('moonshine::ui.dir.service'),
+            Divider::make(),
         ];
     }
 
