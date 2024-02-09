@@ -9,4 +9,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class DirPetrolStation extends Model
 {
     use HasFactory, SoftDeletes;
+
+    /**
+     * Получить данные о заправках на АЗС.
+     */
+    public function listRefilling()
+    {
+        return $this->hasMany(Refilling::class, 'petrol_stations_id', 'id');
+    }
 }
