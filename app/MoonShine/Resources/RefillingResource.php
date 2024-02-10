@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
 use MoonShine\Fields\Relationships\BelongsTo;
 use MoonShine\Resources\MoonShineUserResource;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use MoonShine\Decorations\Flex;
 
 #[Icon('heroicons.outline.battery-50')]
 
@@ -66,58 +67,79 @@ class RefillingResource extends ModelResource
 
     public function indexFields(): array
     {
-        //dd(Auth()->user()->moonshine_user_role_id);
-        //$test = Auth()->user()->moonshine_user_role_id;
-        //$test = $field->getData()?->exists;
         return [
-            Text::make('id', 'id', fn () => Auth()->user()->moonshine_user_role_id),
-            Date::make('date')->format('d.m.Y')->sortable(),
-            BelongsTo::make('driver', 'driver', resource: new MoonShineUserResource()),
-            BelongsTo::make('petrolstation', 'petrolStation', resource: new DirPetrolStationResource()),
-            Number::make('cost_car_refueling')->sortable()->badge(fn ($status, Field $field) => 'secondary'),
+            Date::make('date')->format('d.m.Y')->sortable()->translatable('moonshine::ui.refilling'),
+            BelongsTo::make('driver', 'driver', resource: new MoonShineUserResource())
+                ->hideOnIndex(fn () => auth()->user()->moonshine_user_role_id !== 1)
+                ->translatable('moonshine::ui.refilling'),
+            BelongsTo::make('petrolstation', 'petrolStation', resource: new DirPetrolStationResource())
+                ->translatable('moonshine::ui.refilling'),
+            Text::make(
+                'liters / price',
+                'cost_car_refueling',
+                fn ($item) => $item->num_liters_car_refueling . ' / ' . $item->price_car_refueling
+            )->translatable('moonshine::ui.refilling'),
+            Number::make('cost_car_refueling')->sortable()->badge(fn ($status, Field $field) => 'secondary')
+                ->translatable('moonshine::ui.refilling'),
         ];
     }
 
     public function formFields(): array
     {
         return [
-            Date::make('date')
-                ->fill(now())
-                ->required()
-                ->hint(__('moonshine::ui.refilling.date_hint'))
-                ->translatable('moonshine::ui.refilling'),
-
             BelongsTo::make('owner', 'owner', resource: new MoonShineUserResource())
-                ->searchable(),
+                ->canSee(fn () => false),
+
+            Flex::make([
+                Date::make('date')
+                    ->required()
+                    ->hint(__('moonshine::ui.refilling.date_hint'))
+                    ->translatable('moonshine::ui.refilling'),
+
+                BelongsTo::make('petrolstation', 'petrolStation', resource: new DirPetrolStationResource())
+                    ->valuesQuery(fn (Builder $query, Field $field) => $query->where('status', 1))
+                    ->searchable()
+                    ->required()
+                    ->hint(__('moonshine::ui.refilling.petrolstation_hint'))
+                    ->translatable('moonshine::ui.refilling'),
+            ]),
 
             BelongsTo::make('driver', 'driver', resource: new MoonShineUserResource())
                 ->valuesQuery(fn (Builder $query, Field $field) => $query->where('moonshine_user_role_id', '!=', 1))
+                ->canSee(fn () => auth()->user()->moonshine_user_role_id === 1)
                 ->searchable()
                 ->required()
                 ->hint(__('moonshine::ui.refilling.driver_hint'))
                 ->translatable('moonshine::ui.refilling'),
 
-            BelongsTo::make('petrolstation', 'petrolStation', resource: new DirPetrolStationResource())
-                ->valuesQuery(fn (Builder $query, Field $field) => $query->where('status', 1))
-                ->searchable()
-                ->required()
-                ->hint(__('moonshine::ui.refilling.petrolstation_hint'))
-                ->translatable('moonshine::ui.refilling'),
+            Flex::make([
+                Text::make('num_liters_car_refueling')
+                    ->reactive(
+                        function (Fields $fields, ?string $value): Fields {
+                            return tap(
+                                $fields,
+                                static fn ($fields) => $fields
+                                    ->findByColumn('cost_car_refueling')
+                                    ?->setValue($value * 2)
+                            );
+                        }
+                    )
+                    ->required()
+                    ->hint(__('moonshine::ui.refilling.num_liters_car_refueling_hint'))
+                    ->translatable('moonshine::ui.refilling'),
 
-            Number::make('num_liters_car_refueling')
-                ->required()
-                ->hint(__('moonshine::ui.refilling.num_liters_car_refueling_hint'))
-                ->translatable('moonshine::ui.refilling'),
+                Text::make('price_car_refueling')
+                    ->reactive()
+                    ->required()
+                    ->hint(__('moonshine::ui.refilling.price_car_refueling_hint'))
+                    ->translatable('moonshine::ui.refilling'),
 
-            Number::make('price_car_refueling')
-                ->required()
-                ->hint(__('moonshine::ui.refilling.price_car_refueling_hint'))
-                ->translatable('moonshine::ui.refilling'),
-
-            Number::make('cost_car_refueling')
-                ->required()
-                ->hint(__('moonshine::ui.refilling.cost_car_refueling_hint'))
-                ->translatable('moonshine::ui.refilling'),
+                Text::make('cost_car_refueling')
+                    ->reactive()
+                    ->required()
+                    ->hint(__('moonshine::ui.refilling.cost_car_refueling_hint'))
+                    ->translatable('moonshine::ui.refilling'),
+            ]),
 
             Textarea::make('comment')
                 ->hint(__('moonshine::ui.refilling.comment_hint'))
@@ -134,6 +156,32 @@ class RefillingResource extends ModelResource
     {
         return [];
     }
+
+    protected function beforeCreating(Model $item): Model
+    {
+        request()->merge([
+            'owner_id' => auth()->id(),
+        ]);
+        if (auth()->user()->moonshine_user_role_id !== 1) {
+            request()->merge([
+                'driver_id' => auth()->id(),
+            ]);
+        }
+        return $item;
+    }
+
+    // protected function beforeUpdating(Model $item): Model
+    // {
+    //     // request()->merge([
+    //     //     'owner_id' => auth()->id(),
+    //     // ]);
+    //     if (auth()->user()->moonshine_user_role_id !== 1) {
+    //         request()->merge([
+    //             'driver_id' => auth()->id(),
+    //         ]);
+    //     }
+    //     return $item;
+    // }
 
     public function getBadge(): string
     {

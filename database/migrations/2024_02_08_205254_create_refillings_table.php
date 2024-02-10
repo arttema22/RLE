@@ -15,12 +15,19 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->date('date');
-            $table->BigInteger('owner_id')->unsigned();
-            $table->foreign('owner_id')->references('id')->on('moonshine_users');
+
+            $table->foreignId('owner_id')
+                ->nullable()
+                ->constrained('moonshine_users')
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
+
             $table->BigInteger('driver_id')->unsigned();
             $table->foreign('driver_id')->references('id')->on('moonshine_users');
+
             $table->BigInteger('petrol_stations_id')->unsigned();
             $table->foreign('petrol_stations_id')->references('id')->on('dir_petrol_stations');
+
             $table->integer('num_liters_car_refueling');
             $table->float('price_car_refueling', 8, 2);
             $table->float('cost_car_refueling', 8, 2);

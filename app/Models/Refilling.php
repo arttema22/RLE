@@ -12,6 +12,10 @@ class Refilling extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = [
+        'owner_id',
+    ];
+
     /**
      * Получить данные о создателе записи о заправке.
      */

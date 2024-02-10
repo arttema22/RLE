@@ -25,7 +25,7 @@ class DirPetrolStationResource extends ModelResource
 
     protected string $sortColumn = 'title'; // Поле сортировки по умолчанию
 
-    protected string $sortDirection = 'DESC'; // Тип сортировки по умолчанию
+    protected string $sortDirection = 'ASC'; // Тип сортировки по умолчанию
 
     protected int $itemsPerPage = 25; // Количество элементов на странице
 
